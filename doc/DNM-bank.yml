@@ -1,0 +1,170 @@
+openapi: '3.0.2'
+info:
+  title: Dream Numeric Bank
+  version: '1.0'
+servers:
+  - url: https://DNM.bank.server/v1
+tags:
+  - name: Account
+  - name: Balance
+  - name: Transaction
+  - name: Transfer
+  - name: Debt
+  - name: Currency
+paths:
+  /account:
+    get:
+      tags:
+        - Account
+      summary: Get all accounts
+      description: The returned books are ordered by name.
+      operationId: getAccounts
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accounts'       
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+
+
+    put:
+      summary: Create or update accounts
+      operationId: crupdateAccounts
+      tags:
+        - Account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              #items:
+               # $ref: '#/components/schemas/AccountInput'
+      responses:
+        200:
+          description: The list of created or updated accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/accounts'
+        '400':
+          $ref: '#/components/responses/400'
+
+components:
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SuccessBody'
+    201:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SuccessBody'
+    203:
+      description: Non-Authoritative Information
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SuccessBody'
+    400:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequestBody'
+    403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ForbiddenBody'
+
+    
+  
+  schemas:
+    ResponseStatus:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: OK
+    SuccessBody:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Returned successfuly
+        data:
+          type: object
+          description: Données associées à la réponse
+    ResponseBodyTemplate:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ResponseStatus'
+        body:
+          type: object
+    BadRequestBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+      example:
+        status:
+          code: 400
+          message: BAD REQUEST
+        body: { }
+    ForbiddenBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+      example:
+        status:
+          code: 403
+          message: FORBIDDEN
+        body: { }
+
+
+    accounts:
+      type: object
+      properties:
+        accountId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        monthlySalary:
+          type: number
+          format: double
+        overDrafted:
+          type: boolean
+          
+      example:
+        - accountId: "siais-dadhad-dadjhadj-djqsd"
+          firstName: "Daww"
+          lastName: "Face"
+          birthDate: "2006-08-02"
+          monthlySalary: 50000.0
+          overDrafted: false
+        - accountId: "shasia-sasha-21sas-dadq"
+          firstName: "All"
+          lastName: "Smith"
+          birthDate: "2005-05-14"
+          monthlySalary: 6000000.0
+          overDrafted: true          
+
+
