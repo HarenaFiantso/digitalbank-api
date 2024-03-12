@@ -1,6 +1,6 @@
-CREATE TABLE IF NOT EXISTS debit
+CREATE TABLE IF NOT EXISTS debt
 (
-    id_debit         VARCHAR(255) PRIMARY KEY,
+    id_debt         VARCHAR(255) PRIMARY KEY,
     amount           DOUBLE PRECISION NOT NULL,
     debit_datetime   TIMESTAMP        NOT NULL,
     id_account       VARCHAR(255)     NOT NULL,
