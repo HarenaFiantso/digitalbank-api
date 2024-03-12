@@ -1,0 +1,41 @@
+COMPTE
+nom_du_client A
+prenom_du_client A
+date_de_naissance D
+salaire_mensuel_net N
+numero_de_compte AN
+decouvert_active B
+
+SOLDE
+identifiant_solde A
+montant N
+instant D
+
+DETTE
+identifiant_dette A
+montant N
+instant D
+
+TAUX_D_INTERET
+identifiant_taux_d_interet A
+taux N
+
+TRANSACTION
+identifiant_transaction A
+type_transaction A (Rentrée ou Sortie d'argent)
+
+VIREMENT
+identifiant_virement A
+motif A
+montant N
+
+GROUPE_VIREMENT
+identifiant_groupe_virement A
+date_enregistrement D
+date_prise_d_effet D
+
+
+CATEGORIE_VIREMENT
+identifiant_categorie_virement A
+nom A
+description A
