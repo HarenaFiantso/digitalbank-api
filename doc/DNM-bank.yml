@@ -25,7 +25,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/accounts'       
+                $ref: '#/components/schemas/accounts'
         400:
           $ref: '#/components/responses/400'
         403:
@@ -42,18 +42,20 @@ paths:
           application/json:
             schema:
               type: array
-              #items:
-               # $ref: '#/components/schemas/AccountInput'
+              items:
+                $ref: '#/components/schemas/AccountInput'
       responses:
         200:
-          description: The list of created or updated accounts
+          $ref: "#/components/responses/200"
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/accounts'
-        '400':
+        201:
+          $ref: "#/components/responses/201"
+        400:
           $ref: '#/components/responses/400'
 
 components:
@@ -89,8 +91,8 @@ components:
           schema:
             $ref: '#/components/schemas/ForbiddenBody'
 
-    
-  
+
+
   schemas:
     ResponseStatus:
       type: object
@@ -152,7 +154,7 @@ components:
           format: double
         overDrafted:
           type: boolean
-          
+
       example:
         - accountId: "siais-dadhad-dadjhadj-djqsd"
           firstName: "Daww"
@@ -165,6 +167,20 @@ components:
           lastName: "Smith"
           birthDate: "2005-05-14"
           monthlySalary: 6000000.0
-          overDrafted: true          
+          overDrafted: true
+    AccountInput:
+      type: object
+      properties:
+        lastName:
+          type: string
+        firstName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        monthlySalary:
+          type: number
+          format: double
+          example: 6000.00
 
 
