@@ -7,10 +7,13 @@ servers:
 tags:
   - name: Account
   - name: Balance
-  - name: Transaction
+  - name: TransferCategory
+  - name: TransferGroup
   - name: Transfer
+  - name: Transaction
   - name: Debt
-  - name: Currency
+  - name: InterestRate
+
 paths:
   /account:
     get:
@@ -31,31 +34,767 @@ paths:
         403:
           $ref: '#/components/responses/403'
 
-
-    put:
-      summary: Create or update accounts
-      operationId: crupdateAccounts
+    post:
+      summary: Create a new account
       tags:
         - Account
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/AccountInput'
+              $ref: '#/components/schemas/AccountInput'
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /account/{accountId}:
+    get:
+      summary: Retrieve an account by its ID
+      operationId: getAccountById
+      tags:
+        - Account
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+          description: The ID of the account to retrieve
+      responses:
+        '200':
+          description: Account retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accounts'
+        '400':
+          $ref: '#/components/responses/400'
+
+    put:
+      summary: Update a single account
+      operationId: updateAccount
+      tags:
+        - Account
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+          description: The ID of the account to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountInput'
       responses:
         200:
-          $ref: "#/components/responses/200"
+          description: Account updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accounts'
+        201:
+          description: Account updated and created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accounts'
+        400:
+          $ref: '#/components/responses/400'
+
+    delete:
+      summary: Delete an account
+      tags:
+        - Account
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /balance:
+    get:
+      summary: Retrieve all balances
+      tags:
+        - Balance
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+
+    post:
+      summary: Create a new balance
+      tags:
+        - Balance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/balance'
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /balance/{balanceId}:
+    put:
+      summary: Update an existing balance
+      tags:
+        - Balance
+      parameters:
+        - in: path
+          name: balanceId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/balance'
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '400':
+          $ref: '#/components/responses/400'
+
+    get:
+      summary: Retrieve a balance by its ID
+      operationId: getBalanceById
+      tags:
+        - Balance
+      parameters:
+        - in: path
+          name: balanceId
+          required: true
+          schema:
+            type: string
+          description: The ID of the balance to retrieve
+      responses:
+        '200':
+          description: Balance retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/balance'
+        '400':
+          $ref: '#/components/responses/400'
+
+    delete:
+      summary: Delete a balance
+      tags:
+        - Balance
+      parameters:
+        - in: path
+          name: balanceId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /transfer-categories:
+    get:
+      summary: Retrieve all transfer categories
+      operationId: getAllTransferCategories
+      tags:
+        - TransferCategory
+      responses:
+        '200':
+          description: List of transfer categories retrieved successfully
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/accounts'
-        201:
-          $ref: "#/components/responses/201"
-        400:
+                  $ref: '#/components/schemas/TransferCategory'
+
+    post:
+      summary: Create a new transfer category
+      operationId: createTransferCategory
+      tags:
+        - TransferCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferCategory'
+      responses:
+        '201':
+          description: Transfer category created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferCategory'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /transfer-categories/{transferCategoryId}:
+    get:
+      summary: Retrieve a transfer category by its ID
+      operationId: getTransferCategoryById
+      tags:
+        - TransferCategory
+      parameters:
+        - in: path
+          name: transferCategoryId
+          required: true
+          schema:
+            type: string
+          description: The ID of the transfer category to retrieve
+      responses:
+        '200':
+          description: Transfer category retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferCategory'
+        '400':
+          $ref: '#/components/responses/400'
+    put:
+      summary: Update a transfer category by its ID
+      operationId: updateTransferCategoryById
+      tags:
+        - TransferCategory
+      parameters:
+        - in: path
+          name: transferCategoryId
+          required: true
+          schema:
+            type: string
+          description: The ID of the transfer category to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferCategory'
+      responses:
+        '200':
+          description: Transfer category updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferCategory'
+        '400':
+          $ref: '#/components/responses/400'
+
+    delete:
+      summary: Delete a transfer category by its ID
+      operationId: deleteTransferCategoryById
+      tags:
+        - TransferCategory
+      parameters:
+        - in: path
+          name: transferCategoryId
+          required: true
+          schema:
+            type: string
+          description: The ID of the transfer category to delete
+      responses:
+        '200':
+          description: Transfer category deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessBody'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /transfer-groups:
+    post:
+      summary: Create a new transfer group
+      operationId: createTransferGroup
+      tags:
+        - TransferGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferGroup'
+      responses:
+        '201':
+          description: Transfer group created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferGroup'
+        '400':
+          $ref: '#/components/responses/400'
+
+    get:
+      summary: Retrieve all transfer groups
+      operationId: getAllTransferGroups
+      tags:
+        - TransferGroup
+      responses:
+        '200':
+          description: List of transfer groups retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransferGroup'
+
+  /transfer-groups/{TransferGroupId}:
+    put:
+      summary: Update a transfer group by its ID
+      operationId: updateTransferGroupById
+      tags:
+        - TransferGroup
+      parameters:
+        - in: path
+          name: TransferGroupId
+          required: true
+          schema:
+            type: string
+          description: The ID of the transfer group to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferGroup'
+      responses:
+        '200':
+          description: Transfer group updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferGroup'
+        '400':
+          $ref: '#/components/responses/400'
+
+    delete:
+      summary: Delete a transfer group by its ID
+      operationId: deleteTransferGroupById
+      tags:
+        - TransferGroup
+      parameters:
+        - in: path
+          name: TransferGroupId
+          required: true
+          schema:
+            type: string
+          description: The ID of the transfer group to delete
+      responses:
+        '200':
+          description: Transfer group deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessBody'
+        '400':
+          $ref: '#/components/responses/400'
+
+    get:
+      summary: Retrieve a transfer group by its ID
+      operationId: getTransferGroupById
+      tags:
+        - TransferGroup
+      parameters:
+        - in: path
+          name: TransferGroupId
+          required: true
+          schema:
+            type: string
+          description: The ID of the transfer group to retrieve
+      responses:
+        '200':
+          description: Transfer group retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferGroup'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /transfer:
+    post:
+      summary: Create a new transfer
+      operationId: createTransfer
+      tags:
+        - Transfer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transfer'
+      responses:
+        '201':
+          description: Transfer created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+        '400':
+          $ref: '#/components/responses/400'
+
+    get:
+      summary: Retrieve all transfers
+      operationId: getAllTransfers
+      tags:
+        - Transfer
+      responses:
+        '200':
+          description: List of transfers retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transfer'
+
+  /transfer/{transferId}:
+    put:
+      summary: Update a transfer by its ID
+      operationId: updateTransferById
+      tags:
+        - Transfer
+      parameters:
+        - in: path
+          name: transferId
+          required: true
+          schema:
+            type: string
+          description: The ID of the transfer to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transfer'
+      responses:
+        '200':
+          description: Transfer updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+        '400':
+          $ref: '#/components/responses/400'
+
+    delete:
+      summary: Delete a transfer by its ID
+      operationId: deleteTransferById
+      tags:
+        - Transfer
+      parameters:
+        - in: path
+          name: transferId
+          required: true
+          schema:
+            type: string
+          description: The ID of the transfer to delete
+      responses:
+        '200':
+          description: Transfer deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessBody'
+        '400':
+          $ref: '#/components/responses/400'
+
+    get:
+      summary: Retrieve a transfer by its ID
+      operationId: getTransferById
+      tags:
+        - Transfer
+      parameters:
+        - in: path
+          name: transferId
+          required: true
+          schema:
+            type: string
+          description: The ID of the transfer to retrieve
+      responses:
+        '200':
+          description: Transfer retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /transaction:
+    get:
+      summary: Retrieve all transactions
+      operationId: getAllTransactions
+      tags:
+        - Transaction
+      responses:
+        '200':
+          description: List of transactions retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+
+    post:
+      summary: Create a new transaction
+      operationId: createTransaction
+      tags:
+        - Transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '201':
+          description: Transaction created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /transaction/{transactionId}:
+    put:
+      summary: Update a transaction by its ID
+      operationId: updateTransactionById
+      tags:
+        - Transaction
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          schema:
+            type: string
+          description: The ID of the transaction to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '200':
+          description: Transaction updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          $ref: '#/components/responses/400'
+
+    get:
+      summary: Retrieve a transaction by its ID
+      operationId: getTransactionById
+      tags:
+        - Transaction
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          schema:
+            type: string
+          description: The ID of the transaction to retrieve
+      responses:
+        '200':
+          description: Transaction retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          $ref: '#/components/responses/400'
+
+    delete:
+      summary: Delete a transaction by its ID
+      operationId: deleteTransactionById
+      tags:
+        - Transaction
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          schema:
+            type: string
+          description: The ID of the transaction to delete
+      responses:
+        '200':
+          description: Transaction deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessBody'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /debt:
+    get:
+      summary: Retrieve all debts
+      operationId: getAllDebts
+      tags:
+        - Debt
+      responses:
+        '200':
+          description: List of debts retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/debt'
+
+  /debts/{debtId}:
+    delete:
+      summary: Delete a debt by its ID
+      operationId: deleteDebtById
+      tags:
+        - Debt
+      parameters:
+        - in: path
+          name: debtId
+          required: true
+          schema:
+            type: string
+          description: The ID of the debt to delete
+      responses:
+        '200':
+          description: Debt deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessBody'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /interest-rates:
+    post:
+      summary: Create a new interest rate
+      operationId: createInterestRate
+      tags:
+        - InterestRate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterestRate'
+      responses:
+        '201':
+          description: Interest rate created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterestRate'
+        '400':
+          $ref: '#/components/responses/400'
+
+    get:
+      summary: Retrieve all interest rates
+      operationId: getAllInterestRates
+      tags:
+        - InterestRate
+      responses:
+        '200':
+          description: List of interest rates retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InterestRate'
+
+  /interest-rates/{InterestRate}:
+    put:
+      summary: Update an interest rate by its ID
+      operationId: updateInterestRateById
+      tags:
+        - InterestRate
+      parameters:
+        - in: path
+          name: InterestRate
+          required: true
+          schema:
+            type: string
+          description: The ID of the interest rate to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterestRate'
+      responses:
+        '200':
+          description: Interest rate updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterestRate'
+        '400':
+          $ref: '#/components/responses/400'
+
+    delete:
+      summary: Delete an interest rate by its ID
+      operationId: deleteInterestRateById
+      tags:
+        - InterestRate
+      parameters:
+        - in: path
+          name: InterestRate
+          required: true
+          schema:
+            type: string
+          description: The ID of the interest rate to delete
+      responses:
+        '200':
+          description: Interest rate deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessBody'
+        '400':
+          $ref: '#/components/responses/400'
+
+    get:
+      summary: Retrieve an interest rate by its ID
+      operationId: getInterestRateById
+      tags:
+        - InterestRate
+      parameters:
+        - in: path
+          name: InterestRate
+          required: true
+          schema:
+            type: string
+          description: The ID of the interest rate to retrieve
+      responses:
+        '200':
+          description: Interest rate retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterestRate'
+        '400':
           $ref: '#/components/responses/400'
 
 components:
@@ -90,8 +829,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ForbiddenBody'
-
-
 
   schemas:
     ResponseStatus:
@@ -136,7 +873,7 @@ components:
           message: FORBIDDEN
         body: { }
 
-
+    #entity
     accounts:
       type: object
       properties:
@@ -168,19 +905,150 @@ components:
           birthDate: "2005-05-14"
           monthlySalary: 6000000.0
           overDrafted: true
+
     AccountInput:
       type: object
       properties:
         lastName:
           type: string
+          example: "Jean"
         firstName:
           type: string
+          example: "Bà"
         birthDate:
           type: string
           format: date
+          example: "2008-03-14"
         monthlySalary:
           type: number
           format: double
           example: 6000.00
 
+    balance:
+      type: object
+      properties:
+        balanceId:
+          type: string
+          description: ID balance.
+        amount:
+          type: number
+          format: double
+          description: amount of the balance.
+        balanceDatetime:
+          type: string
+          format: date-time
+          description: The date and time of the balance.
+        idAccount:
+          type: string
+          description: id account associated with this balance.
+      required:
+        - idAccount
 
+    TransferCategory:
+      type: object
+      properties:
+        transferCategoryId:
+          type: string
+          description: unique id.
+        name:
+          type: string
+          description: The name of the transfer category.
+        description:
+          type: string
+          description: The description of the transfer category.
+
+    TransferGroup:
+      type: object
+      properties:
+        TransferGroupId:
+          type: string
+          description: unique id of the transfer group.
+        registrationDate:
+          type: string
+          format: date-time
+          description: registration date of the transfer group.
+        effectiveDate:
+          type: string
+          format: date-time
+          description: effective date of the transfer group.
+        idTransferCategory:
+          type: string
+          description: id of the transfer category associated with this transfer group.
+
+    Transfer:
+      type: object
+      properties:
+        transferId:
+          type: string
+          description: unique id of the transfer.
+        reason:
+          type: string
+          description: The reason for the transfer.
+        idTransferGroup:
+          type: string
+          description: The id of the transfer group associated with this transfer.
+      required:
+        - reason
+        - idTransferGroup
+
+    Transaction:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: The unique id of the transaction.
+        transactionType:
+          type: string
+          description: The type of the transaction.
+        amount:
+          type: number
+          format: double
+          description: The amount of the transaction.
+        idAccount:
+          type: string
+          description: id account associated with this transaction.
+        idTransfer:
+          type: string
+          description: id transfer associated with this transaction.
+      required:
+        - transactionType
+        - amount
+        - idTransfer
+    InterestRate:
+      type: object
+      properties:
+        InterestRate:
+          type: string
+          description: id of the interest rate.
+        value:
+          type: number
+          format: double
+          description: The value of the interest rate.
+        interestRateDatetime:
+          type: string
+          format: date-time
+          description: The date and time when the interest rate was set.
+
+    debt:
+      type: object
+      properties:
+        debtId:
+          type: string
+          description:  id of the debt.
+        amount:
+          type: number
+          format: double
+          description: The amount of the debt.
+        debtDatetime:
+          type: string
+          format: date-time
+          description: The date and time when the debt was incurred.
+        idAccount:
+          type: string
+          description:  idaccount associated with this debt.
+        idInterestRate:
+          type: string
+          description: idinterest rate associated with this debt.
+      required:
+        - amount
+        - idAccount
