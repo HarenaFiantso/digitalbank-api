@@ -24,15 +24,15 @@ paths:
       operationId: getAccounts
       responses:
         200:
-          $ref: '#/components/responses/200'
+          description: Successfully get all accounts
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/accounts'
         400:
           $ref: '#/components/responses/400'
-        403:
-          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
 
     post:
       summary: Create a new account
@@ -45,10 +45,16 @@ paths:
             schema:
               $ref: '#/components/schemas/AccountInput'
       responses:
-        '201':
-          $ref: '#/components/responses/201'
+        '200':
+          description: Successfully created a new account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accounts'
         '400':
           $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
 
   /account/{accountId}:
     get:
@@ -72,6 +78,10 @@ paths:
                 $ref: '#/components/schemas/accounts'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
     put:
       summary: Update a single account
@@ -106,6 +116,8 @@ paths:
                 $ref: '#/components/schemas/accounts'
         400:
           $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
 
     delete:
       summary: Delete an account
@@ -119,9 +131,15 @@ paths:
             type: string
       responses:
         '200':
-          $ref: '#/components/responses/200'
+          description: Successfully deleted account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accounts'
         '400':
           $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
 
   /balance:
     get:
@@ -130,7 +148,12 @@ paths:
         - Balance
       responses:
         '200':
-          $ref: '#/components/responses/200'
+          description: Successfully got all balances
+          content:
+            application/json:
+              schema:
+                items:
+                  - $ref: '#/components/schemas/balance'
 
     post:
       summary: Create a new balance
@@ -147,6 +170,8 @@ paths:
           $ref: '#/components/responses/201'
         '400':
           $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
 
   /balance/{balanceId}:
     put:
@@ -170,6 +195,10 @@ paths:
           $ref: '#/components/responses/200'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
     get:
       summary: Retrieve a balance by its ID
@@ -192,6 +221,10 @@ paths:
                 $ref: '#/components/schemas/balance'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
     delete:
       summary: Delete a balance
@@ -208,6 +241,10 @@ paths:
           $ref: '#/components/responses/200'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
   /transfer-categories:
     get:
@@ -224,6 +261,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TransferCategory'
+        '500':
+          $ref: '#/components/responses/500'
 
     post:
       summary: Create a new transfer category
@@ -245,6 +284,8 @@ paths:
                 $ref: '#/components/schemas/TransferCategory'
         '400':
           $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
 
   /transfer-categories/{transferCategoryId}:
     get:
@@ -268,6 +309,10 @@ paths:
                 $ref: '#/components/schemas/TransferCategory'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
     put:
       summary: Update a transfer category by its ID
       operationId: updateTransferCategoryById
@@ -295,6 +340,10 @@ paths:
                 $ref: '#/components/schemas/TransferCategory'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
     delete:
       summary: Delete a transfer category by its ID
@@ -317,6 +366,10 @@ paths:
                 $ref: '#/components/schemas/SuccessBody'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
   /transfer-groups:
     post:
@@ -339,6 +392,8 @@ paths:
                 $ref: '#/components/schemas/TransferGroup'
         '400':
           $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
 
     get:
       summary: Retrieve all transfer groups
@@ -354,6 +409,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TransferGroup'
+        '500':
+          $ref: '#/components/responses/500'
 
   /transfer-groups/{TransferGroupId}:
     put:
@@ -383,6 +440,10 @@ paths:
                 $ref: '#/components/schemas/TransferGroup'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
     delete:
       summary: Delete a transfer group by its ID
@@ -405,6 +466,10 @@ paths:
                 $ref: '#/components/schemas/SuccessBody'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
     get:
       summary: Retrieve a transfer group by its ID
@@ -427,6 +492,10 @@ paths:
                 $ref: '#/components/schemas/TransferGroup'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
   /transfer:
     post:
@@ -449,6 +518,8 @@ paths:
                 $ref: '#/components/schemas/Transfer'
         '400':
           $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
 
     get:
       summary: Retrieve all transfers
@@ -464,6 +535,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Transfer'
+        '500':
+          $ref: '#/components/responses/500'
 
   /transfer/{transferId}:
     put:
@@ -493,6 +566,10 @@ paths:
                 $ref: '#/components/schemas/Transfer'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
     delete:
       summary: Delete a transfer by its ID
@@ -515,6 +592,10 @@ paths:
                 $ref: '#/components/schemas/SuccessBody'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
     get:
       summary: Retrieve a transfer by its ID
@@ -537,6 +618,10 @@ paths:
                 $ref: '#/components/schemas/Transfer'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
   /transaction:
     get:
@@ -553,6 +638,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Transaction'
+        '500':
+          $ref: '#/components/responses/500'
 
     post:
       summary: Create a new transaction
@@ -574,6 +661,10 @@ paths:
                 $ref: '#/components/schemas/Transaction'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
   /transaction/{transactionId}:
     put:
@@ -603,6 +694,10 @@ paths:
                 $ref: '#/components/schemas/Transaction'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
     get:
       summary: Retrieve a transaction by its ID
@@ -625,6 +720,10 @@ paths:
                 $ref: '#/components/schemas/Transaction'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
     delete:
       summary: Delete a transaction by its ID
@@ -647,6 +746,10 @@ paths:
                 $ref: '#/components/schemas/SuccessBody'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
   /debt:
     get:
@@ -663,6 +766,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/debt'
+        '500':
+          $ref: '#/components/responses/500'
 
   /debts/{debtId}:
     delete:
@@ -686,6 +791,10 @@ paths:
                 $ref: '#/components/schemas/SuccessBody'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
   /interest-rates:
     post:
@@ -708,6 +817,8 @@ paths:
                 $ref: '#/components/schemas/InterestRate'
         '400':
           $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
 
     get:
       summary: Retrieve all interest rates
@@ -723,6 +834,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/InterestRate'
+        '500':
+          $ref: '#/components/responses/500'
 
   /interest-rates/{InterestRate}:
     put:
@@ -752,6 +865,10 @@ paths:
                 $ref: '#/components/schemas/InterestRate'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
     delete:
       summary: Delete an interest rate by its ID
@@ -774,6 +891,10 @@ paths:
                 $ref: '#/components/schemas/SuccessBody'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
     get:
       summary: Retrieve an interest rate by its ID
@@ -796,83 +917,33 @@ paths:
                 $ref: '#/components/schemas/InterestRate'
         '400':
           $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 
 components:
   responses:
-    200:
-      description: OK
+    '400':
+      description: Bad request
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/SuccessBody'
-    201:
-      description: Created
+            $ref: '#/components/schemas/BadRequestException'
+    '404':
+      description: Not found
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/SuccessBody'
-    203:
-      description: Non-Authoritative Information
+            $ref: '#/components/schemas/ResourceNotFoundException'
+    '500':
+      description: Internal server error
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/SuccessBody'
-    400:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/BadRequestBody'
-    403:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ForbiddenBody'
+            $ref: '#/components/schemas/InternalServerException'
 
   schemas:
-    ResponseStatus:
-      type: object
-      properties:
-        code:
-          type: integer
-          example: 200
-        message:
-          type: string
-          example: OK
-    SuccessBody:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Returned successfuly
-        data:
-          type: object
-          description: Données associées à la réponse
-    ResponseBodyTemplate:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/ResponseStatus'
-        body:
-          type: object
-    BadRequestBody:
-      allOf:
-        - $ref: '#/components/schemas/ResponseBodyTemplate'
-      example:
-        status:
-          code: 400
-          message: BAD REQUEST
-        body: { }
-    ForbiddenBody:
-      allOf:
-        - $ref: '#/components/schemas/ResponseBodyTemplate'
-      example:
-        status:
-          code: 403
-          message: FORBIDDEN
-        body: { }
-
     #entity
     accounts:
       type: object
@@ -1052,3 +1123,29 @@ components:
       required:
         - amount
         - idAccount
+
+    Exception:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    BadRequestException:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: BadRequestException
+        message: Bad request
+    ResourceNotFoundException:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: ResourceNotFoundException
+        message: Resource of type <T> identified by <I> not found
+    InternalServerException:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: InternalServerException
+        message: Unexpected error
