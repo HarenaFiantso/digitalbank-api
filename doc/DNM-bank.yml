@@ -34,8 +34,8 @@ paths:
         500:
           $ref: '#/components/responses/500'
 
-    post:
-      summary: Create a new account
+    put:
+      summary: Save or update accounts
       tags:
         - Account
       requestBody:
@@ -43,7 +43,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccountInput'
+              type: array
+              items:
+                $ref: '#/components/schemas/AccountInput'
             example:
               - firstName: "Daww"
                 lastName: "Face"
@@ -51,11 +53,13 @@ paths:
                 monthlySalary: 50000.0
       responses:
         '200':
-          description: Successfully created a new account
+          description: Successfully saved or updated accounts
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/accounts'
+                type: array
+                items:
+                  $ref: '#/components/schemas/accounts'
               example:
                 - accountId: "siais-dadhad-dadjhadj-djqsd"
                   firstName: "Daww"
@@ -99,49 +103,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '500':
-          $ref: '#/components/responses/500'
-
-    put:
-      summary: Update a single account
-      operationId: updateAccount
-      tags:
-        - Account
-      parameters:
-        - in: path
-          name: accountId
-          required: true
-          schema:
-            type: string
-          description: The ID of the account to update
-          example:
-            - accountId: "siais-dadhad-dadjhadj-djqsd"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AccountInput'
-      responses:
-        200:
-          description: Account updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/accounts'
-              example:
-                - firstName: "Daww"
-                  lastName: "Face"
-                  birthDate: "2006-08-02"
-                  monthlySalary: 50000.0
-        201:
-          description: Account updated and created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/accounts'
-        400:
-          $ref: '#/components/responses/400'
-        500:
           $ref: '#/components/responses/500'
 
     delete:
@@ -193,8 +154,9 @@ paths:
                   accountId: "adkd-adi5ad-adha-da"
                   currentBalance: 500.0
 
-    post:
-      summary: Create a new balance
+    put:
+      summary: Save or update balances
+      description: This endpoint is used to save or update existing balances. It accepts an array of balance details and updates the corresponding balances in the database.
       tags:
         - Balance
       requestBody:
@@ -202,42 +164,32 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/balance'
+              type: array
+              items:
+                $ref: '#/components/schemas/balance'
+            example:
+              - amount: 1000.0
+                balanceDatetime: "2023-04-01T10:00:00Z"
+                idAccount: "siais-dadhad-dadjhadj-djqsd"
       responses:
-        '201':
-          $ref: '#/components/schemas/balance'
+        '200':
+          description: Successfully saved or updated balances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/balance'
+              example:
+                - amount: 1000.0
+                  balanceDatetime: "2023-04-01T10:00:00Z"
+                  idAccount: "siais-dadhad-dadjhadj-djqsd"
         '400':
           $ref: '#/components/responses/400'
         '500':
           $ref: '#/components/responses/500'
 
   /balance/{balanceId}:
-    put:
-      summary: Update an existing balance
-      tags:
-        - Balance
-      parameters:
-        - in: path
-          name: balanceId
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/balance'
-      responses:
-        '200':
-          $ref: '#/components/schemas/balance'
-        '400':
-          $ref: '#/components/responses/400'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-
     get:
       summary: Retrieve a balance by its ID
       operationId: getBalanceById
@@ -302,9 +254,9 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-    post:
-      summary: Create a new transfer category
-      operationId: createTransferCategory
+    put:
+      summary: Save or update transfer categories
+      operationId: saveOrUpdateTransferCategory
       tags:
         - TransferCategory
       requestBody:
@@ -314,8 +266,8 @@ paths:
             schema:
               $ref: '#/components/schemas/TransferCategory'
       responses:
-        '201':
-          description: Transfer category created successfully
+        '200':
+          description: Transfer category saved or updated successfully
           content:
             application/json:
               schema:
@@ -341,37 +293,6 @@ paths:
       responses:
         '200':
           description: Transfer category retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransferCategory'
-        '400':
-          $ref: '#/components/responses/400'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-    put:
-      summary: Update a transfer category by its ID
-      operationId: updateTransferCategoryById
-      tags:
-        - TransferCategory
-      parameters:
-        - in: path
-          name: transferCategoryId
-          required: true
-          schema:
-            type: string
-          description: The ID of the transfer category to update
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TransferCategory'
-      responses:
-        '200':
-          description: Transfer category updated successfully
           content:
             application/json:
               schema:
@@ -410,9 +331,9 @@ paths:
           $ref: '#/components/responses/500'
 
   /transfer-groups:
-    post:
-      summary: Create a new transfer group
-      operationId: createTransferGroup
+    put:
+      summary: Save or update transfer groups
+      operationId: saveOrUpdateTransferGroup
       tags:
         - TransferGroup
       requestBody:
@@ -422,8 +343,8 @@ paths:
             schema:
               $ref: '#/components/schemas/TransferGroup'
       responses:
-        '201':
-          description: Transfer group created successfully
+        '200':
+          description: Transfer group saved or updated successfully
           content:
             application/json:
               schema:
@@ -451,38 +372,6 @@ paths:
           $ref: '#/components/responses/500'
 
   /transfer-groups/{TransferGroupId}:
-    put:
-      summary: Update a transfer group by its ID
-      operationId: updateTransferGroupById
-      tags:
-        - TransferGroup
-      parameters:
-        - in: path
-          name: TransferGroupId
-          required: true
-          schema:
-            type: string
-          description: The ID of the transfer group to update
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TransferGroup'
-      responses:
-        '200':
-          description: Transfer group updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransferGroup'
-        '400':
-          $ref: '#/components/responses/400'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-
     delete:
       summary: Delete a transfer group by its ID
       operationId: deleteTransferGroupById
@@ -536,9 +425,9 @@ paths:
           $ref: '#/components/responses/500'
 
   /transfer:
-    post:
-      summary: Create a new transfer
-      operationId: createTransfer
+    put:
+      summary: Save or update transfers
+      operationId: saveOrUpdateTransfer
       tags:
         - Transfer
       requestBody:
@@ -548,8 +437,8 @@ paths:
             schema:
               $ref: '#/components/schemas/Transfer'
       responses:
-        '201':
-          description: Transfer created successfully
+        '200':
+          description: Transfer saved or updated successfully
           content:
             application/json:
               schema:
@@ -577,38 +466,6 @@ paths:
           $ref: '#/components/responses/500'
 
   /transfer/{transferId}:
-    put:
-      summary: Update a transfer by its ID
-      operationId: updateTransferById
-      tags:
-        - Transfer
-      parameters:
-        - in: path
-          name: transferId
-          required: true
-          schema:
-            type: string
-          description: The ID of the transfer to update
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Transfer'
-      responses:
-        '200':
-          description: Transfer updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Transfer'
-        '400':
-          $ref: '#/components/responses/400'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-
     delete:
       summary: Delete a transfer by its ID
       operationId: deleteTransferById
@@ -679,9 +536,9 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-    post:
-      summary: Create a new transaction
-      operationId: createTransaction
+    put:
+      summary: Save or update transactions
+      operationId: saveOrUpdateTransaction
       tags:
         - Transaction
       requestBody:
@@ -691,8 +548,8 @@ paths:
             schema:
               $ref: '#/components/schemas/Transaction'
       responses:
-        '201':
-          description: Transaction created successfully
+        '200':
+          description: Transaction saved or updated successfully
           content:
             application/json:
               schema:
@@ -705,38 +562,6 @@ paths:
           $ref: '#/components/responses/500'
 
   /transaction/{transactionId}:
-    put:
-      summary: Update a transaction by its ID
-      operationId: updateTransactionById
-      tags:
-        - Transaction
-      parameters:
-        - in: path
-          name: transactionId
-          required: true
-          schema:
-            type: string
-          description: The ID of the transaction to update
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Transaction'
-      responses:
-        '200':
-          description: Transaction updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Transaction'
-        '400':
-          $ref: '#/components/responses/400'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-
     get:
       summary: Retrieve a transaction by its ID
       operationId: getTransactionById
@@ -835,9 +660,9 @@ paths:
           $ref: '#/components/responses/500'
 
   /interest-rates:
-    post:
-      summary: Create a new interest rate
-      operationId: createInterestRate
+    put:
+      summary: Save or update interest rates
+      operationId: saveOrUpdateInterestRate
       tags:
         - InterestRate
       requestBody:
@@ -847,8 +672,8 @@ paths:
             schema:
               $ref: '#/components/schemas/InterestRate'
       responses:
-        '201':
-          description: Interest rate created successfully
+        '200':
+          description: Interest rate saved or updated successfully
           content:
             application/json:
               schema:
@@ -876,38 +701,6 @@ paths:
           $ref: '#/components/responses/500'
 
   /interest-rates/{InterestRate}:
-    put:
-      summary: Update an interest rate by its ID
-      operationId: updateInterestRateById
-      tags:
-        - InterestRate
-      parameters:
-        - in: path
-          name: InterestRate
-          required: true
-          schema:
-            type: string
-          description: The ID of the interest rate to update
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InterestRate'
-      responses:
-        '200':
-          description: Interest rate updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InterestRate'
-        '400':
-          $ref: '#/components/responses/400'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-
     delete:
       summary: Delete an interest rate by its ID
       operationId: deleteInterestRateById
