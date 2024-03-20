@@ -1,0 +1,1 @@
+INSERT INTO account values ('dajda-dajd-dajdl-da65','Tendry','Ytoim','2005-05-26',1000.00,true);
