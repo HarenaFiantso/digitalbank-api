@@ -35,7 +35,7 @@ paths:
           $ref: '#/components/responses/500'
 
     put:
-      summary: Save or update accounts
+      summary: Create or update accounts
       tags:
         - Account
       requestBody:
@@ -53,7 +53,7 @@ paths:
                 monthlySalary: 50000.0
       responses:
         '200':
-          description: Successfully saved or updated accounts
+          description: Successfully created or updated accounts
           content:
             application/json:
               schema:
@@ -155,8 +155,8 @@ paths:
                   currentBalance: 500.0
 
     put:
-      summary: Save or update balances
-      description: This endpoint is used to save or update existing balances. It accepts an array of balance details and updates the corresponding balances in the database.
+      summary: Create or update balances
+      description: This endpoint is used to create or update existing balances. It accepts an array of balance details and updates the corresponding balances in the database.
       tags:
         - Balance
       requestBody:
@@ -173,7 +173,7 @@ paths:
                 idAccount: "siais-dadhad-dadjhadj-djqsd"
       responses:
         '200':
-          description: Successfully saved or updated balances
+          description: Successfully created or updated balances
           content:
             application/json:
               schema:
@@ -255,7 +255,7 @@ paths:
           $ref: '#/components/responses/500'
 
     put:
-      summary: Save or update transfer categories
+      summary: Create or update transfer categories
       operationId: saveOrUpdateTransferCategory
       tags:
         - TransferCategory
@@ -267,7 +267,7 @@ paths:
               $ref: '#/components/schemas/TransferCategory'
       responses:
         '200':
-          description: Transfer category saved or updated successfully
+          description: Transfer category created or updated successfully
           content:
             application/json:
               schema:
@@ -332,7 +332,7 @@ paths:
 
   /transfer-groups:
     put:
-      summary: Save or update transfer groups
+      summary: Create or update transfer groups
       operationId: saveOrUpdateTransferGroup
       tags:
         - TransferGroup
@@ -344,7 +344,7 @@ paths:
               $ref: '#/components/schemas/TransferGroup'
       responses:
         '200':
-          description: Transfer group saved or updated successfully
+          description: Transfer group created or updated successfully
           content:
             application/json:
               schema:
@@ -426,7 +426,7 @@ paths:
 
   /transfer:
     put:
-      summary: Save or update transfers
+      summary: Create or update transfers
       operationId: saveOrUpdateTransfer
       tags:
         - Transfer
@@ -537,8 +537,8 @@ paths:
           $ref: '#/components/responses/500'
 
     put:
-      summary: Save or update transactions
-      operationId: saveOrUpdateTransaction
+      summary: Create or update transactions
+      operationId: CreateOrUpdateTransaction
       tags:
         - Transaction
       requestBody:
@@ -549,7 +549,7 @@ paths:
               $ref: '#/components/schemas/Transaction'
       responses:
         '200':
-          description: Transaction saved or updated successfully
+          description: Transaction created or updated successfully
           content:
             application/json:
               schema:
@@ -779,7 +779,7 @@ components:
     accounts:
       type: object
       properties:
-        accountId:
+        idAccount:
           type: string
         firstName:
           type: string
@@ -791,18 +791,6 @@ components:
         monthlySalary:
           type: number
           format: double
-        transactionList:
-          type: array
-          items:
-            $ref: '#/components/schemas/Transaction'
-        balance:
-          type: array
-          items:
-            $ref: '#/components/schemas/balance'
-        debtList:
-          type: array
-          items:
-            $ref: '#/components/schemas/debt'
         overDrafted:
           type: boolean
 
@@ -829,24 +817,58 @@ components:
     AccountInput:
       type: object
       properties:
-        lastName:
+        idAccount:
           type: string
-          example: "Jean"
+          description: The unique identifier of the account. If provided, this is an update; otherwise, it's a creation.
         firstName:
           type: string
-          example: "Bà"
+          description: The first name of the account holder.
+        lastName:
+          type: string
+          description: The last name of the account holder.
         birthDate:
           type: string
           format: date
-          example: "2008-03-14"
-        balance:
-          type: array
-          items:
-            $ref: '#/components/schemas/balance'
+          description: The birth date of the account holder.
         monthlySalary:
           type: number
           format: double
-          example: 6000.00
+          description: The monthly salary of the account holder.
+        overDrafted:
+          type: boolean
+          description: Indicates if the account is overdrafted.
+
+    AccountComponent:
+      type: object
+      properties:
+        idAccount:
+          type: string
+          description: The unique identifier of the account.
+        firstName:
+          type: string
+          description: The first name of the account holder.
+        lastName:
+          type: string
+          description: The last name of the account holder.
+        birthDate:
+          type: string
+          format: date-time
+          description: The birth date of the account holder.
+        monthlySalary:
+          type: number
+          format: double
+          description: The monthly salary of the account holder.
+        overDrafted:
+          type: boolean
+          description: Indicates if the account is overdrafted.
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+          description: A list of transactions associated with the account.
+        balance:
+          $ref: '#/components/schemas/balance'
+          description: The current balance of the account.
 
     balance:
       type: object
@@ -935,6 +957,9 @@ components:
         idAccount:
           type: string
           description: id account associated with this transaction.
+        TransactionCategory:
+          type: string
+          description: id of the transaction category associated with this transaction
         idTransfer:
           type: string
           description: id transfer associated with this transaction.
@@ -942,6 +967,17 @@ components:
         - transactionType
         - amount
         - idTransfer
+
+    TransactionCategory:
+      type: object
+      properties:
+        TransactionCategoryId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+
     InterestRate:
       type: object
       properties:
