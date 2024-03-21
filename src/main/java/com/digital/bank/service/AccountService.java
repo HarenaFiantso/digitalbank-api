@@ -47,7 +47,6 @@ public class AccountService {
             throw new RuntimeException(e);
         }
     }
-
     public Account getAccountById(String id){
         try {
             return this.repository.getById(id);
