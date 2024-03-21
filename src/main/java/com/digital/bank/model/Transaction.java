@@ -8,6 +8,7 @@ import com.digital.bank.util.drr.annotation.Model;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 @Builder
 @Getter
@@ -28,6 +29,11 @@ public class Transaction implements Serializable {
     @Column(name = "id_account")
     private final String idAccount;
     @NonNull
+    @Column(name = "transaction_datetime")
+    private final Instant transactionDatetime;
+    @NonNull
+    @Column(name = "reason")
+    private final String reason;
     @Column(name = "id_transfer")
     private final String idTransfer;
 }
