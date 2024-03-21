@@ -873,7 +873,7 @@ components:
     balance:
       type: object
       properties:
-        balanceId:
+        idBalance:
           type: string
           description: ID balance.
         amount:
@@ -893,7 +893,7 @@ components:
     TransferCategory:
       type: object
       properties:
-        transferCategoryId:
+        idTransferCategory:
           type: string
           description: unique id.
         name:
@@ -906,7 +906,7 @@ components:
     TransferGroup:
       type: object
       properties:
-        TransferGroupId:
+        idTransferGroup:
           type: string
           description: unique id of the transfer group.
         registrationDate:
@@ -924,7 +924,7 @@ components:
     Transfer:
       type: object
       properties:
-        transferId:
+        idTransfer:
           type: string
           description: unique id of the transfer.
         reason:
@@ -933,7 +933,7 @@ components:
         idTransferGroup:
           type: string
           description: The id of the transfer group associated with this transfer.
-        Transaction:
+        transaction:
           type: array
           items:
             $ref: '#/components/schemas/Transaction'
@@ -944,7 +944,7 @@ components:
     Transaction:
       type: object
       properties:
-        transactionId:
+        idTransaction:
           type: string
           description: The unique id of the transaction.
         transactionType:
@@ -957,10 +957,10 @@ components:
         idAccount:
           type: string
           description: id account associated with this transaction.
-        IdTransactionCategory:
+        idTransactionCategory:
           type: string
           description: id of the transaction category associated with this transaction
-        TransactionDateTime:
+        transactionDateTime:
           type: string
           format: date-time
           description: The date and time of the transaction.
@@ -978,7 +978,7 @@ components:
     TransactionCategory:
       type: object
       properties:
-        TransactionCategoryId:
+        idTransactionCategory:
           type: string
         name:
           type: string
@@ -988,7 +988,7 @@ components:
     InterestRate:
       type: object
       properties:
-        InterestRate:
+        idInterestRate:
           type: string
           description: id of the interest rate.
         value:
@@ -1003,7 +1003,7 @@ components:
     debt:
       type: object
       properties:
-        debtId:
+        idDebt:
           type: string
           description:  id of the debt.
         amount:
