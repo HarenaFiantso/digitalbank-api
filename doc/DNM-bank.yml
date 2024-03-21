@@ -957,9 +957,16 @@ components:
         idAccount:
           type: string
           description: id account associated with this transaction.
-        TransactionCategory:
+        IdTransactionCategory:
           type: string
           description: id of the transaction category associated with this transaction
+        TransactionDateTime:
+          type: string
+          format: date-time
+          description: The date and time of the transaction.
+        reason:
+          type: string
+          description: reason of the transaction(description)
         idTransfer:
           type: string
           description: id transfer associated with this transaction.
