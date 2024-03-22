@@ -21,7 +21,7 @@ public class AccountController {
     }
 
     @GetMapping("")
-    public List<AccountComponent> getAll(){
+    public List<AccountComponent> getAllAccounts(){
 
         return this.service.getAllAccounts()
                 .stream()
