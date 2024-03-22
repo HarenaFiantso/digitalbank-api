@@ -7,7 +7,7 @@ servers:
 tags:
   - name: Account
   - name: Balance
-  - name: TransferCategory
+  - name: TransactionCategory
   - name: TransferGroup
   - name: Transfer
   - name: Transaction
@@ -45,12 +45,14 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/AccountInput'
+                $ref: '#/components/schemas/AccountComponent'
             example:
               - firstName: "Daww"
                 lastName: "Face"
                 birthDate: "2006-08-02"
                 monthlySalary: 50000.0
+                overDrafted: true
+
       responses:
         '200':
           description: Successfully created or updated accounts
@@ -59,13 +61,16 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/accounts'
+                  $ref: '#/components/schemas/AccountComponent'
               example:
-                - accountId: "siais-dadhad-dadjhadj-djqsd"
+                - idAccount: "siais-dadhad-dadjhadj-djqsd"
                   firstName: "Daww"
                   lastName: "Face"
-                  birthDate: "2006-08-02"
+                  birthDate: "2006-08-02T00:00:00Z"
                   monthlySalary: 50000.0
+                  overDrafted: false
+                  transactions: [ ]
+                  balance: { }
         '400':
           $ref: '#/components/responses/400'
         '500':
@@ -236,38 +241,40 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /transfer-categories:
+  /transaction-category:
     get:
-      summary: Retrieve all transfer categories
-      operationId: getAllTransferCategories
+      summary: Retrieve all transaction categories
+      operationId: getAllTransactionCategories
       tags:
-        - TransferCategory
+        - TransactionCategory
       responses:
         '200':
-          description: List of transfer categories retrieved successfully
+          description: List of transaction categories retrieved successfully
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TransferCategory'
+                  $ref: '#/components/schemas/TransactionCategory'
         '500':
           $ref: '#/components/responses/500'
 
     put:
-      summary: Create or update transfer categories
-      operationId: saveOrUpdateTransferCategory
+      summary: Create or update transaction categories
+      operationId: saveOrUpdateTransactionCategory
       tags:
-        - TransferCategory
+        - TransactionCategory
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TransferCategory'
+              type: array
+              items:
+                $ref: '#/components/schemas/TransactionCategory'
       responses:
         '200':
-          description: Transfer category created or updated successfully
+          description: Transaction category created or updated successfully
           content:
             application/json:
               schema:
@@ -277,26 +284,26 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /transfer-categories/{transferCategoryId}:
+  /transactioncategory/{transactionCategoryId}:
     get:
-      summary: Retrieve a transfer category by its ID
-      operationId: getTransferCategoryById
+      summary: Retrieve a transaction category by its ID
+      operationId: getTransactionCategoryById
       tags:
-        - TransferCategory
+        - TransactionCategory
       parameters:
         - in: path
-          name: transferCategoryId
+          name: transactionCategoryId
           required: true
           schema:
             type: string
-          description: The ID of the transfer category to retrieve
+          description: The ID of the transaction category to retrieve
       responses:
         '200':
-          description: Transfer category retrieved successfully
+          description: Transaction category retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransferCategory'
+                $ref: '#/components/schemas/TransactionCategory'
         '400':
           $ref: '#/components/responses/400'
         '404':
@@ -305,24 +312,24 @@ paths:
           $ref: '#/components/responses/500'
 
     delete:
-      summary: Delete a transfer category by its ID
-      operationId: deleteTransferCategoryById
+      summary: Delete a transaction category by its ID
+      operationId: deleteTransactionCategoryById
       tags:
-        - TransferCategory
+        - TransactionCategory
       parameters:
         - in: path
-          name: transferCategoryId
+          name: transactionCategoryId
           required: true
           schema:
             type: string
-          description: The ID of the transfer category to delete
+          description: The ID of the transaction category to delete
       responses:
         '200':
-          description: Transfer category deleted successfully
+          description: Transaction category deleted successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Transfer'
+                $ref: '#/components/schemas/TransactionCategory'
         '400':
           $ref: '#/components/responses/400'
         '404':
@@ -333,7 +340,7 @@ paths:
   /transfer-groups:
     put:
       summary: Create or update transfer groups
-      operationId: saveOrUpdateTransferGroup
+      operationId: createOrUpdateTransferGroup
       tags:
         - TransferGroup
       requestBody:
