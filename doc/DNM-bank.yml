@@ -877,6 +877,7 @@ components:
           $ref: '#/components/schemas/balance'
           description: The current balance of the account.
 
+
     balance:
       type: object
       properties:
@@ -956,17 +957,16 @@ components:
           description: The unique id of the transaction.
         transactionType:
           type: string
+          enum:
+            - EXPENSE
+            - INCOME
           description: The type of the transaction.
         amount:
           type: number
           format: double
           description: The amount of the transaction.
-        idAccount:
-          type: string
-          description: id account associated with this transaction.
-        idTransactionCategory:
-          type: string
-          description: id of the transaction category associated with this transaction
+        account:
+            $ref: '#/components/schemas/AccountComponent'
         transactionDateTime:
           type: string
           format: date-time
@@ -974,13 +974,15 @@ components:
         reason:
           type: string
           description: reason of the transaction(description)
-        idTransfer:
-          type: string
-          description: id transfer associated with this transaction.
+        transfer:
+            $ref: '#/components/schemas/Transfer'
+        transactionCategory:
+            $ref: '#/components/schemas/TransactionCategory'
       required:
         - transactionType
         - amount
-        - idTransfer
+        - reason
+        - transactionCategory
 
     TransactionCategory:
       type: object
