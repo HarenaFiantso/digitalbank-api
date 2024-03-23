@@ -76,7 +76,7 @@ public class TransactionService {
         Double updatedBalance = transaction.getTransactionType() == TransactionType.INCOME
                 ? currentBalanceAmount + transaction.getAmount()
                 : currentBalanceAmount - transaction.getAmount();
-        this.balanceRepository.save(
+        Balance savedBalance = this.balanceRepository.save(
                 Balance.builder()
                         .idAccount(transaction.getIdAccount())
                         .amount(updatedBalance)
