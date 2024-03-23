@@ -5,7 +5,7 @@ public enum PgQuery {
     INSERT("insert into \"%s\" (%s) values (%s) returning *"),
     UPDATE("update %s set %s where %s = ? returning *"),
     SELECT_BY_COLUMN("select %s from \"%s\" where %s"),
-    DELETE_BY_COLUMN("delete cascade from %s where %s returning *");
+    DELETE_BY_COLUMN("delete from %s where %s returning *");
 
     public final String value;
 

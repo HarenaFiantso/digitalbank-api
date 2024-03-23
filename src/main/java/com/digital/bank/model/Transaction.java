@@ -34,6 +34,9 @@ public class Transaction implements Serializable {
     @NonNull
     @Column(name = "reason")
     private final String reason;
+    @NonNull
+    @Column(name = "id_transaction_category")
+    private final String idTransactionCategory;
     @Column(name = "id_transfer")
     private final String idTransfer;
 }
