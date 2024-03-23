@@ -877,6 +877,7 @@ components:
           $ref: '#/components/schemas/balance'
           description: The current balance of the account.
 
+
     balance:
       type: object
       properties:
@@ -965,10 +966,7 @@ components:
           format: double
           description: The amount of the transaction.
         account:
-          type: array
-          items:
-            $ref: '#/components/schemas/accounts'
-          description: account associated with this transaction.
+            $ref: '#/components/schemas/AccountComponent'
         transactionDateTime:
           type: string
           format: date-time
@@ -977,14 +975,9 @@ components:
           type: string
           description: reason of the transaction(description)
         transfer:
-          type: array
-          items:
             $ref: '#/components/schemas/Transfer'
         transactionCategory:
-          type: array
-          items:
             $ref: '#/components/schemas/TransactionCategory'
-
       required:
         - transactionType
         - amount
