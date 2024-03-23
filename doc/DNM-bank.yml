@@ -278,13 +278,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransferCategory'
+                $ref: '#/components/schemas/TransactionCategory'
         '400':
           $ref: '#/components/responses/400'
         '500':
           $ref: '#/components/responses/500'
 
-  /transactioncategory/{transactionCategoryId}:
+  /transaction-category/{transactionCategoryId}:
     get:
       summary: Retrieve a transaction category by its ID
       operationId: getTransactionCategoryById
@@ -897,19 +897,6 @@ components:
           description: id account associated with this balance.
       required:
         - idAccount
-
-    TransferCategory:
-      type: object
-      properties:
-        idTransferCategory:
-          type: string
-          description: unique id.
-        name:
-          type: string
-          description: The name of the transfer category.
-        description:
-          type: string
-          description: The description of the transfer category.
 
     TransferGroup:
       type: object

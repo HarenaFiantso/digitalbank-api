@@ -41,6 +41,9 @@ public class TransactionRepository extends DreamReflectRepository<Transaction> {
                     .amount(resultSet.getDouble("amount"))
                     .transactionType(TransactionType.valueOf(resultSet.getString("transaction_type")))
                     .idAccount(resultSet.getString("id_account"))
+                    .transactionDatetime(resultSet.getTimestamp("transaction_datetime").toInstant())
+                    .reason(resultSet.getString("reason"))
+                    .idTransactionCategory(resultSet.getString("id_transaction_category"))
                     .idTransfer(resultSet.getString("id_transfer"))
                     .build();
         }catch (SQLException e){

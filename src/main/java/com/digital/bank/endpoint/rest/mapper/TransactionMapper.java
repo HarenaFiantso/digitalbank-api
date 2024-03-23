@@ -3,6 +3,7 @@ package com.digital.bank.endpoint.rest.mapper;
 import com.digital.bank.component.TransactionComponent;
 import com.digital.bank.model.Transaction;
 import com.digital.bank.repository.AccountRepository;
+import com.digital.bank.repository.TransactionCategoryRepository;
 import com.digital.bank.repository.TransactionRepository;
 import com.digital.bank.repository.TransferRepository;
 import org.springframework.stereotype.Component;
@@ -14,10 +15,12 @@ public class TransactionMapper {
 
     private final TransferRepository transferRepository;
     private final AccountRepository accountRepository;
+    private final TransactionCategoryRepository transactionCategoryRepository;
 
-    public TransactionMapper(TransferRepository transferRepository, AccountRepository accountRepository) {
+    public TransactionMapper(TransferRepository transferRepository, AccountRepository accountRepository, TransactionCategoryRepository transactionCategoryRepository) {
         this.transferRepository = transferRepository;
         this.accountRepository = accountRepository;
+        this.transactionCategoryRepository = transactionCategoryRepository;
     }
 
     public TransactionComponent toComponent(Transaction transaction){
@@ -32,6 +35,9 @@ public class TransactionMapper {
                     .transfer(
                             transaction.getIdTransfer() == null ? null : transferRepository.getById(transaction.getIdTransfer())
                     )
+                    .category(transactionCategoryRepository.getById(
+                            transaction.getIdTransactionCategory()
+                    ))
                     .build();
         } catch (SQLException e) {
             throw new RuntimeException(e);
