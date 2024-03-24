@@ -54,4 +54,12 @@ public class InterestRateService {
       throw new RuntimeException(e);
     }
   }
+
+  public InterestRate getInitialInterestRate() {
+    try{
+      return this.repository.getInitial();
+    }catch (SQLException e){
+      throw new RuntimeException(e);
+    }
+  }
 }

@@ -36,7 +36,12 @@ public class InterestRateController {
   }
 
   @GetMapping("/latest")
-  public InterestRate getLatestInterestRate(){
+  public InterestRate getLatestInterestRate() {
     return this.service.getLatestInterestRate();
+  }
+
+  @GetMapping("/initial")
+  public InterestRate getInitialInterestRate() {
+    return this.service.getInitialInterestRate();
   }
 }

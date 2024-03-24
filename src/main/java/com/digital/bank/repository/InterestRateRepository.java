@@ -22,8 +22,15 @@ public class InterestRateRepository extends DreamReflectRepository<InterestRate>
     String sql = "SELECT * FROM \"interest_rate\" ORDER BY interest_rate_datetime DESC LIMIT 1";
     PreparedStatement statement = this.connection.prepareStatement(sql);
     ResultSet resultSet = statement.executeQuery();
-    if (!resultSet.next())
-      return null;
+    if (!resultSet.next()) return null;
+    return this.mapResultSet(resultSet);
+  }
+
+  public InterestRate getInitial() throws SQLException {
+    String sql = "SELECT * FROM \"interest_rate\" ORDER BY interest_rate_datetime ASC LIMIT 1";
+    PreparedStatement statement = this.connection.prepareStatement(sql);
+    ResultSet resultSet = statement.executeQuery();
+    if (!resultSet.next()) return null;
     return this.mapResultSet(resultSet);
   }
 

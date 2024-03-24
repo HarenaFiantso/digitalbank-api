@@ -113,14 +113,14 @@ public class TransactionService {
   }
 
   private void giveOverdraftDebtToAccount(Account account) throws SQLException {
-    InterestRate latestInterestRate = this.interestRateRepository.getLatest();
+    InterestRate initialInterestRate = this.interestRateRepository.getInitial();
 
     this.debtRepository.save(
         Debt.builder()
             .amount(account.getMonthlySalary() / 3)
             .debtDatetime(Instant.now())
             .idAccount(account.getIdAccount())
-            .idInterestRate(latestInterestRate.getIdInterestRate())
+            .idInterestRate(initialInterestRate.getIdInterestRate())
             .build());
   }
 }
