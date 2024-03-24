@@ -20,8 +20,8 @@ paths:
       tags:
         - Account
       summary: Get all accounts
-      description: The returned books are ordered by name.
-      operationId: getAccounts
+      description: The returned accounts are ordered by name.
+      operationId: getAllAccounts
       responses:
         200:
           description: Successfully get all accounts
@@ -40,16 +40,17 @@ paths:
         - Account
       requestBody:
         required: true
+        description: If an idAccount is provided, the existing account with that ID will be updated.
         content:
           application/json:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/AccountComponent'
+                $ref: '#/components/schemas/accounts'
             example:
               - firstName: "Daww"
                 lastName: "Face"
-                birthDate: "2006-08-02"
+                birthDate: "2002-08-02"
                 monthlySalary: 50000.0
                 overDrafted: true
 
@@ -76,7 +77,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /account/{accountId}:
+  /account/{id}:
     get:
       summary: Retrieve an account by its ID
       operationId: getAccountById
@@ -84,7 +85,7 @@ paths:
         - Account
       parameters:
         - in: path
-          name: accountId
+          name: id
           required: true
           schema:
             type: string
@@ -111,12 +112,12 @@ paths:
           $ref: '#/components/responses/500'
 
     delete:
-      summary: Delete an account
+      summary: Delete an account by its ID
       tags:
         - Account
       parameters:
         - in: path
-          name: accountId
+          name: id
           required: true
           schema:
             type: string
@@ -244,7 +245,7 @@ paths:
   /transaction-category:
     get:
       summary: Retrieve all transaction categories
-      operationId: getAllTransactionCategories
+      operationId: getAllTransactionCategory
       tags:
         - TransactionCategory
       responses:
@@ -261,11 +262,12 @@ paths:
 
     put:
       summary: Create or update transaction categories
-      operationId: saveOrUpdateTransactionCategory
+      operationId: createOrUpdateTransactionCategory
       tags:
         - TransactionCategory
       requestBody:
         required: true
+        description: If an id was provided , the transaction category will be updated
         content:
           application/json:
             schema:
@@ -284,7 +286,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /transaction-category/{transactionCategoryId}:
+  /transaction-category/{id}:
     get:
       summary: Retrieve a transaction category by its ID
       operationId: getTransactionCategoryById
@@ -292,7 +294,7 @@ paths:
         - TransactionCategory
       parameters:
         - in: path
-          name: transactionCategoryId
+          name: id
           required: true
           schema:
             type: string
@@ -318,7 +320,7 @@ paths:
         - TransactionCategory
       parameters:
         - in: path
-          name: transactionCategoryId
+          name: id
           required: true
           schema:
             type: string
@@ -545,11 +547,12 @@ paths:
 
     put:
       summary: Create or update transactions
-      operationId: CreateOrUpdateTransaction
+      operationId: createOrUpdateTransaction
       tags:
         - Transaction
       requestBody:
         required: true
+        description: if an id is provided , the transaction is updated
         content:
           application/json:
             schema:
@@ -568,7 +571,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /transaction/{transactionId}:
+  /transaction/{id}:
     get:
       summary: Retrieve a transaction by its ID
       operationId: getTransactionById
@@ -576,7 +579,7 @@ paths:
         - Transaction
       parameters:
         - in: path
-          name: transactionId
+          name: id
           required: true
           schema:
             type: string
@@ -602,7 +605,7 @@ paths:
         - Transaction
       parameters:
         - in: path
-          name: transactionId
+          name: id
           required: true
           schema:
             type: string
@@ -639,7 +642,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /debts/{debtId}:
+    put:
+      summary: Create or update debt
+      operationId: CreateOrUpdateDebts
+      tags:
+        - Debt
+      requestBody:
+        required: true
+        description: If an id is provided, the existing debt with that ID will be updated.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/debt'
+      responses:
+        '200':
+          description: debt created or updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/debt'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /debts/{id}:
     delete:
       summary: Delete a debt by its ID
       operationId: deleteDebtById
@@ -647,7 +676,7 @@ paths:
         - Debt
       parameters:
         - in: path
-          name: debtId
+          name: id
           required: true
           schema:
             type: string
@@ -658,7 +687,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Transfer'
+                $ref: '#/components/schemas/debt'
         '400':
           $ref: '#/components/responses/400'
         '404':
@@ -668,19 +697,20 @@ paths:
 
   /interest-rate:
     put:
-      summary: Save or update interest rates
-      operationId: saveOrUpdateInterestRate
+      summary: Create or update interest rates
+      operationId: createOrUpdateInterestRates
       tags:
         - InterestRate
       requestBody:
         required: true
+        description: If an id is provided, the existing interest rate with that ID will be updated.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/InterestRate'
       responses:
         '200':
-          description: Interest rate saved or updated successfully
+          description: Interest rate created or updated successfully
           content:
             application/json:
               schema:
@@ -707,7 +737,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /interest-rate/{InterestRate}:
+  /interest-rate/{id}:
     delete:
       summary: Delete an interest rate by its ID
       operationId: deleteInterestRateById
@@ -715,7 +745,7 @@ paths:
         - InterestRate
       parameters:
         - in: path
-          name: InterestRate
+          name: id
           required: true
           schema:
             type: string
@@ -741,7 +771,7 @@ paths:
         - InterestRate
       parameters:
         - in: path
-          name: InterestRate
+          name: id
           required: true
           schema:
             type: string
@@ -757,6 +787,37 @@ paths:
           $ref: '#/components/responses/400'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /interest-rate/latest:
+    get:
+      summary: Retrieve the latest interest rate
+      operationId: getLatestInterestRate
+      tags:
+        - InterestRate
+      responses:
+        '200':
+          description: Latest interest rate retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterestRate'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /interest-rate/initial:
+    get:
+      summary: Retrieve the initial interest rate
+      operationId: getInitialInterestRate
+      tags:
+        - InterestRate
+      responses:
+        '200':
+          description: Initial interest rate retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterestRate'
         '500':
           $ref: '#/components/responses/500'
 
