@@ -666,7 +666,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /interest-rates:
+  /interest-rate:
     put:
       summary: Save or update interest rates
       operationId: saveOrUpdateInterestRate
@@ -707,7 +707,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /interest-rates/{InterestRate}:
+  /interest-rate/{InterestRate}:
     delete:
       summary: Delete an interest rate by its ID
       operationId: deleteInterestRateById
