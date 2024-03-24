@@ -24,7 +24,7 @@ public class TransactionRepository extends DreamReflectRepository<Transaction> {
 
     public List<Transaction> getLastTransactionOfAccount(String accountId) throws SQLException{
         List<Transaction> result = new ArrayList<>();
-        String sql = "SELECT * FROM \"transaction\" WHERE id_account = ? LIMIT 5";
+        String sql = "SELECT * FROM \"transaction\" WHERE id_account = ? ORDER BY transaction_datetime DESC LIMIT 5";
         PreparedStatement statement = this.connection.prepareStatement(sql);
         statement.setString(1, accountId);
         ResultSet resultSet = statement.executeQuery();
