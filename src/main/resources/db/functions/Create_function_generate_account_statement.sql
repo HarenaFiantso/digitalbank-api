@@ -3,25 +3,29 @@ RETURNS TABLE (
     transaction_date DATE,
     reference VARCHAR,
     reason VARCHAR,
-    credit NUMERIC,
-    debit NUMERIC,
-    balance NUMERIC
+    credit DOUBLE PRECISION,
+    debit DOUBLE PRECISION,
+    balance DOUBLE PRECISION
 ) AS $$
 BEGIN
 RETURN QUERY
 SELECT
-    transaction_datetime::DATE AS transaction_date,
-        id_transaction AS reference,
-    transaction.reason,
-    CASE WHEN transaction_type = 'INCOME' THEN amount ELSE 0 END AS credit,
-    CASE WHEN transaction_type = 'EXPENSE' THEN amount ELSE 0 END AS debit,
-    SUM(CASE WHEN transaction_type = 'INCOME' THEN amount ELSE -amount END) OVER (ORDER BY transaction_datetime) AS balance
+    t.transaction_datetime::DATE AS transaction_date,
+        t.id_transaction AS reference,
+    t.reason,
+    CASE WHEN t.transaction_type = 'INCOME' THEN t.amount::DOUBLE PRECISION ELSE 0.00 END AS credit,
+    CASE WHEN t.transaction_type = 'EXPENSE' THEN t.amount::DOUBLE PRECISION ELSE 0.00 END AS debit,
+    COALESCE((SELECT b.amount::DOUBLE PRECISION FROM balance b
+        WHERE b.id_account = t.account_id
+        AND b.balance_datetime > t.transaction_datetime
+        ORDER BY b.balance_datetime ASC LIMIT 1), 0.00)
+        AS balance
 FROM
-    transaction
+    transaction t
 WHERE
-        account_id = p_account_id AND
-    transaction_datetime::DATE BETWEEN p_start_date AND p_end_date
+    t.account_id = p_account_id AND
+    t.transaction_datetime::DATE BETWEEN p_start_date AND p_end_date
 ORDER BY
-    transaction_datetime DESC;
+    t.transaction_datetime DESC;
 END; $$
 LANGUAGE plpgsql;
